@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:21:32 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/05/01 16:19:38 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:13:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,39 @@ int main(int ac, char *av[])
 		}
     }
 	struct timeval start,end;
-
+	//
 	gettimeofday(&start, NULL);
 
-	PmergeMe deque_sort(ac, av, 'Q');
+	PmergeMe<std::list> l_sort(ac, av);
 
-	deque_sort.mergeInsertionSortDeque();
+	l_sort.display('B');
+	l_sort.FordJohnson();
+	l_sort.display('A');
 
 	gettimeofday(&end, NULL);
 	double elapsed_time_us = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
+	std::cout << "Time to process a range of " << ac - 1 << " elements with std::list : " << elapsed_time_us << " µs" <<  std::endl;
+
+	gettimeofday(&start, NULL);
+
+	PmergeMe<std::deque> dq_sort(ac, av);
+
+	dq_sort.FordJohnson();
+
+	gettimeofday(&end, NULL);
+	elapsed_time_us = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
 	std::cout << "Time to process a range of " << ac - 1 << " elements with std::deque : " << elapsed_time_us << " µs" <<  std::endl;
 
 	gettimeofday(&start, NULL);
 
-	PmergeMe list_sort(ac, av, 'L');
+	PmergeMe<std::vector> vect_sort(ac, av);
 
-	list_sort.mergeInsertionSortList();
+	vect_sort.FordJohnson();
 
 	gettimeofday(&end, NULL);
 	elapsed_time_us = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
-	std::cout << "Time to process a range of " << ac - 1 << " elements with std::list : " << elapsed_time_us << " µs" <<  std::endl;
+	std::cout << "Time to process a range of " << ac - 1 << " elements with std::vector : " << elapsed_time_us << " µs" <<  std::endl;
+
+	gettimeofday(&start, NULL);
 
 }
