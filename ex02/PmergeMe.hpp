@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:29:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/05/06 13:19:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:43:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@
 #include <utility>
 #define nullptr 0
 
-
 template<template<typename, typename> class Cont>
 class PmergeMe {
 
 	public:
 		~PmergeMe();
 		PmergeMe();
-		PmergeMe(int ac , char *av[]);
-		PmergeMe(const PmergeMe & other);
+		PmergeMe(int ac ,char *av[]);
 
+		PmergeMe(const PmergeMe & other);
 		PmergeMe &operator=(const PmergeMe & other);
 
 		template<typename Iterator, template<typename, typename> class Container>
@@ -40,14 +39,13 @@ class PmergeMe {
 
 				void display();
 				std::size_t size();
-
 				void swap(typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator it,
-						typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator next_it);
+						  typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator next_it);
+
 				void addPair(Iterator begin, Iterator end);
 				void fillPairs(Container<int, std::allocator<int> > & container);
-
-
 				void insertionSort();
+				void recursiveISort(std::size_t size);
 				void insert(Container<int, std::allocator<int> > & container, int n);
 				void sortPairs();
 				void binarySearch(Container<int, std::allocator<int> > & container, int n);
@@ -59,18 +57,13 @@ class PmergeMe {
 
 		void display(Cont<int, std::allocator<int> > & container, char mode);
 		void display(char mode);
-
 		void FordJohnson();
-		void mergeInsertionSortDeque();
-		void mergeInsertionSortList();
 
 	private:
 		Cont<int, std::allocator<int> > data;
 };
 
 #include "PmergeMe.tpp"
-
-#endif
 
 // template<template<typename, typename> class Cont>
 // template<typename Iterator, template<typename, typename> class Container>
@@ -144,13 +137,14 @@ class PmergeMe {
 // template<template<typename, typename> class Cont>
 // template<typename Iterator, template<typename, typename> class Container>
 // void PmergeMe<Cont>::IteratorPairList<Iterator, Container>::addToMainChain(Container<int, std::allocator<int> > & container) {
-//     typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator it = this->pairs.begin();
-//     for (; it != this->pairs.end(); it++) {
+//     typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator it = --this->pairs.end();
+//     for (; it != this->pairs.begin(); it--) {
 //         if (*(it->first) != *(it->second)) {
 //             int n = *(it->first);
 //             container.push_back(n);
 //         }
 //     }
+// 	container.push_back(*(this->pairs.begin())->first);
 // }
 //
 // template<template<typename, typename> class Cont>
@@ -171,6 +165,40 @@ class PmergeMe {
 // 			j_m1_it--;
 // 		}
 // 	}
+// }
+//
+// template<template<typename, typename> class Cont>
+// template<typename Iterator, template<typename, typename> class Container>
+// void PmergeMe<Cont>::IteratorPairList<Iterator, Container>::recursiveISort(std::size_t size) {
+//     // Base case 
+//     if (size <= 1) {
+//         return; 
+//     }
+//   
+//     // Sort first n-1 elements 
+//     recursiveISort(size - 1); 
+//   
+//     // Insert last element at its correct position 
+//     // in sorted array. 
+//     typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator last = this->pairs.begin();
+//     std::advance(last, size - 1);
+//     int j = size - 2; 
+//   
+//     // Move elements greater than key one position ahead
+//     typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator arr_j = this->pairs.begin();
+//     std::advance(arr_j, j);
+//   
+//     while (j >= 0 && *(arr_j->first) > *(last->first)) { 
+//         typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator temp = arr_j;
+//         ++temp;
+//         this->swap(temp, arr_j);
+//         --j;
+// 		--arr_j;
+//     } 
+//   
+//     typename Container<std::pair<Iterator, Iterator>, std::allocator<int> >::iterator temp = arr_j;
+//     ++temp;
+//     this->swap(temp, last);
 // }
 //
 // template<template<typename, typename> class Cont>
@@ -287,7 +315,8 @@ class PmergeMe {
 //
 // 	pair_list.fillPairs(this->data);
 // 	pair_list.sortPairs();
-// 	pair_list.insertionSort();
+// 	// pair_list.insertionSort();
+// 	pair_list.recursiveISort(pair_list.size());
 //
 // 	Cont<int, std::allocator<int> > main_chain;
 // 	pair_list.addToMainChain(main_chain);
@@ -315,3 +344,5 @@ class PmergeMe {
 // 	}
 // 	this->data = main_chain;
 // }
+
+#endif

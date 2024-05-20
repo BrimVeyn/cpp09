@@ -6,7 +6,7 @@
 #    By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/15 11:21:29 by bvan-pae          #+#    #+#              #
-#    Updated: 2024/04/30 11:22:22 by bvan-pae         ###   ########.fr        #
+#    Updated: 2024/05/10 14:09:22 by bvan-pae         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CFLAGS 	:= -Wall -Wextra -Werror -std=c++98
 
 NAME 	:= merge
 
-SRC	:= $(wildcard *.cpp)
+SRC	:= main.cpp
 
 OBJ 	:= $(SRC:%.cpp=%.o)
 
